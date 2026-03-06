@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="鬼道書">
+<meta name="theme-color" content="#06080e">
+<meta name="mobile-web-app-capable" content="yes">
+<title>鬼道書 — Kidō Grimoire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg-void:#06080e;--border-dim:rgba(80,180,255,0.08);
+--bakudo-primary:#4fb4ff;--bakudo-glow:rgba(79,180,255,0.6);
+--hado-primary:#ff5a40;--hado-glow:rgba(255,90,64,0.6);
+--kaido-primary:#50dc78;--kaido-glow:rgba(80,220,120,0.6);
+--ink-dark:#2c2010;--ink-mid:#5a4a35;
+--font-kanji:'Noto Serif JP',serif;--font-body:'Crimson Pro',Georgia,serif;--font-mono:'Share Tech Mono',monospace;
+--sai-top:env(safe-area-inset-top,0px);--sai-bottom:env(safe-area-inset-bottom,0px);
+--sai-left:env(safe-area-inset-left,0px);--sai-right:env(safe-area-inset-right,0px);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg-void);color:#c8d8e8;font-family:var(--font-body);font-size:17px;line-height:1.6;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-overflow-scrolling:touch;padding-top:var(--sai-top);padding-left:var(--sai-left);padding-right:var(--sai-right)}
+body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 20%,rgba(79,180,255,0.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(255,90,64,0.02) 0%,transparent 60%),radial-gradient(ellipse at 50% 50%,rgba(80,220,120,0.015) 0%,transparent 50%);pointer-events:none;z-index:0}
+body::after{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.008) 2px,rgba(255,255,255,0.008) 4px);pointer-events:none;z-index:9999}
+@media(max-width:768px){body::after{display:none}}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+.grimoire-header{position:relative;z-index:10;text-align:center;padding:50px 20px 35px;border-bottom:1px solid var(--border-dim)}
+.grimoire-header::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(79,180,255,0.3),transparent)}
+.header-kanji{font-family:var(--font-kanji);font-size:4.5rem;font-weight:900;color:rgba(200,220,240,0.9);letter-spacing:0.15em;text-shadow:0 0 30px rgba(79,180,255,0.25),0 0 60px rgba(79,180,255,0.1);margin-bottom:6px;animation:headerPulse 4s ease-in-out infinite}
+@keyframes headerPulse{0%,100%{text-shadow:0 0 30px rgba(79,180,255,0.25),0 0 60px rgba(79,180,255,0.1)}50%{text-shadow:0 0 40px rgba(79,180,255,0.35),0 0 80px rgba(79,180,255,0.15)}}
+.header-subtitle{font-family:var(--font-mono);font-size:0.8rem;color:rgba(160,180,200,0.5);letter-spacing:0.35em;text-transform:uppercase}
+.header-division{font-family:var(--font-mono);font-size:0.6rem;color:rgba(79,180,255,0.3);letter-spacing:0.3em;text-transform:uppercase;margin-top:10px;padding:0 10px}
+
+.controls{position:sticky;top:0;z-index:100;background:rgba(6,8,14,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border-dim);padding:14px 16px;display:flex;flex-direction:column;gap:10px;align-items:center}
+.controls-row{display:flex;gap:10px;align-items:center;justify-content:center;width:100%;flex-wrap:wrap}
+.tab-group{display:flex;gap:2px;background:rgba(255,255,255,0.03);border-radius:8px;padding:3px;border:1px solid var(--border-dim);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0}
+.tab-group::-webkit-scrollbar{display:none}
+.tab-btn{font-family:var(--font-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;padding:10px 16px;border:none;border-radius:6px;background:transparent;color:rgba(160,180,200,0.5);cursor:pointer;transition:all 0.25s ease;white-space:nowrap;min-height:44px;display:flex;align-items:center}
+.tab-btn:hover{color:rgba(200,220,240,0.8);background:rgba(255,255,255,0.04)}
+.tab-btn.active{background:rgba(79,180,255,0.1);color:var(--bakudo-primary);box-shadow:inset 0 0 10px rgba(79,180,255,0.05)}
+.tab-btn[data-filter="hado"].active{background:rgba(255,90,64,0.1);color:var(--hado-primary);box-shadow:inset 0 0 10px rgba(255,90,64,0.05)}
+.tab-btn[data-filter="kaido"].active{background:rgba(80,220,120,0.1);color:var(--kaido-primary);box-shadow:inset 0 0 10px rgba(80,220,120,0.05)}
+
+.search-box{position:relative;flex:1;max-width:280px;min-width:160px}
+.search-box input{font-family:var(--font-mono);font-size:16px;padding:10px 40px 10px 36px;width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border-dim);border-radius:8px;color:#c8d8e8;outline:none;transition:border-color 0.3s ease;min-height:44px}
+.search-box input::placeholder{color:rgba(160,180,200,0.3)}
+.search-box input:focus{border-color:rgba(79,180,255,0.3)}
+.search-box::before{content:"⌕";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:rgba(160,180,200,0.3);font-size:1rem;pointer-events:none}
+.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:none;background:rgba(255,255,255,0.08);color:rgba(160,180,200,0.5);font-size:0.8rem;cursor:pointer;display:none;align-items:center;justify-content:center}
+.search-clear.visible{display:flex}
+.spell-count{font-family:var(--font-mono);font-size:0.65rem;color:rgba(160,180,200,0.3);letter-spacing:0.1em;white-space:nowrap}
+
+.seal-grid{position:relative;z-index:10;max-width:1100px;margin:24px auto 60px;padding:0 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;justify-items:center;padding-bottom:calc(var(--sai-bottom) + 30px)}
+
+.kido-seal{width:100%;max-width:155px;aspect-ratio:1;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all 0.3s cubic-bezier(0.23,1,0.32,1);-webkit-user-select:none;user-select:none;animation:sealAppear 0.5s cubic-bezier(0.23,1,0.32,1) both}
+.kido-seal:active{transform:scale(0.93);transition-duration:0.1s}
+@keyframes sealAppear{from{opacity:0;transform:scale(0.85) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.kido-seal.type-bakudo{background:radial-gradient(ellipse at center,rgba(15,25,55,0.95),rgba(5,10,30,0.98) 70%,#000);border:1.5px solid rgba(79,180,255,0.15);box-shadow:0 0 20px rgba(79,180,255,0.08),inset 0 0 30px rgba(0,0,0,0.5)}
+.kido-seal.type-hado{background:radial-gradient(ellipse at center,rgba(45,15,15,0.95),rgba(20,8,8,0.98) 70%,#000);border:1.5px solid rgba(255,90,64,0.15);box-shadow:0 0 20px rgba(255,90,64,0.08),inset 0 0 30px rgba(0,0,0,0.5)}
+.kido-seal.type-kaido{background:radial-gradient(ellipse at center,rgba(15,45,25,0.95),rgba(8,20,12,0.98) 70%,#000);border:1.5px solid rgba(80,220,120,0.15);box-shadow:0 0 20px rgba(80,220,120,0.08),inset 0 0 30px rgba(0,0,0,0.5)}
+
+.seal-kanji{font-family:var(--font-kanji);font-size:2.8rem;font-weight:900;line-height:1.1;text-align:center;transition:all 0.3s ease;position:relative;z-index:2}
+.type-bakudo .seal-kanji{color:rgba(120,200,255,0.85);text-shadow:0 0 8px var(--bakudo-glow),0 0 25px rgba(79,180,255,0.4),0 0 50px rgba(79,180,255,0.2)}
+.type-hado .seal-kanji{color:rgba(255,140,110,0.85);text-shadow:0 0 8px var(--hado-glow),0 0 25px rgba(255,90,64,0.4),0 0 50px rgba(255,90,64,0.2)}
+.type-kaido .seal-kanji{color:rgba(130,235,160,0.85);text-shadow:0 0 8px var(--kaido-glow),0 0 25px rgba(80,220,120,0.4),0 0 50px rgba(80,220,120,0.2)}
+
+.seal-number{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:0.58rem;letter-spacing:0.15em;z-index:2}
+.type-bakudo .seal-number{color:rgba(79,180,255,0.5)}.type-hado .seal-number{color:rgba(255,90,64,0.5)}.type-kaido .seal-number{color:rgba(80,220,120,0.5)}
+.seal-name{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:0.5rem;letter-spacing:0.08em;white-space:nowrap;z-index:2;opacity:0.4}
+.type-bakudo .seal-name{color:rgba(79,180,255,0.6)}.type-hado .seal-name{color:rgba(255,90,64,0.6)}.type-kaido .seal-name{color:rgba(80,220,120,0.6)}
+
+@media(hover:hover){
+.seal-number{opacity:0;transition:opacity 0.3s ease}.kido-seal:hover .seal-number{opacity:1}
+.kido-seal.type-bakudo:hover{border-color:rgba(79,180,255,0.4);box-shadow:0 0 35px rgba(79,180,255,0.2),0 0 70px rgba(79,180,255,0.08),inset 0 0 30px rgba(0,0,0,0.5);transform:translateY(-3px)}
+.kido-seal.type-hado:hover{border-color:rgba(255,90,64,0.4);box-shadow:0 0 35px rgba(255,90,64,0.2),0 0 70px rgba(255,90,64,0.08),inset 0 0 30px rgba(0,0,0,0.5);transform:translateY(-3px)}
+.kido-seal.type-kaido:hover{border-color:rgba(80,220,120,0.4);box-shadow:0 0 35px rgba(80,220,120,0.2),0 0 70px rgba(80,220,120,0.08),inset 0 0 30px rgba(0,0,0,0.5);transform:translateY(-3px)}
+}
+@media(hover:none){.seal-number{opacity:0.6}}
+
+.seal-ring{position:absolute;top:50%;left:50%;width:90px;height:90px;transform:translate(-50%,-50%);border-radius:50%;border:1px solid transparent;animation:ringRotate 12s linear infinite;pointer-events:none;z-index:1}
+.type-bakudo .seal-ring{border-color:rgba(79,180,255,0.06)}.type-hado .seal-ring{border-color:rgba(255,90,64,0.06)}.type-kaido .seal-ring{border-color:rgba(80,220,120,0.06)}
+@keyframes ringRotate{0%{transform:translate(-50%,-50%) rotate(0deg)}100%{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.seal-pulse{position:absolute;top:50%;left:50%;width:70px;height:70px;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;z-index:0;animation:sealPulse 3s ease-in-out infinite}
+.type-bakudo .seal-pulse{background:radial-gradient(circle,rgba(79,180,255,0.08) 0%,transparent 70%)}
+.type-hado .seal-pulse{background:radial-gradient(circle,rgba(255,90,64,0.08) 0%,transparent 70%)}
+.type-kaido .seal-pulse{background:radial-gradient(circle,rgba(80,220,120,0.08) 0%,transparent 70%)}
+@keyframes sealPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-50%) scale(1.5);opacity:0.3}}
+
+.card-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(3,5,10,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s ease}
+.card-overlay.active{opacity:1;pointer-events:all}
+.spell-card{width:100%;max-width:680px;max-height:85vh;max-height:85dvh;overflow-y:auto;overflow-x:hidden;border-radius:12px 12px 8px 8px;position:relative;transform:translateY(40px) scale(0.96);transition:transform 0.4s cubic-bezier(0.23,1,0.32,1);overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:linear-gradient(175deg,#f5e6c8,#ecdbb2 15%,#e8d5aa 30%,#f0ddb5 50%,#e5d0a3 70%,#ecdbb2 85%,#f2e0b8);box-shadow:0 8px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(180,160,120,0.3),inset 0 0 80px rgba(180,150,100,0.1)}
+.card-overlay.active .spell-card{transform:translateY(0) scale(1)}
+.spell-card::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(139,115,75,0.02) 3px,rgba(139,115,75,0.02) 4px);border-radius:12px;pointer-events:none;z-index:0}
+.spell-card::-webkit-scrollbar{width:4px}.spell-card::-webkit-scrollbar-track{background:transparent}.spell-card::-webkit-scrollbar-thumb{background:rgba(139,115,75,0.3);border-radius:2px}
+
+.card-swipe-bar{position:sticky;top:0;z-index:10;display:none;justify-content:center;padding:10px 0 6px;background:linear-gradient(180deg,rgba(60,45,25,0.98),rgba(60,45,25,0.95))}
+.card-swipe-bar span{width:36px;height:4px;border-radius:2px;background:rgba(240,216,144,0.25)}
+@media(hover:none){.card-swipe-bar{display:flex}}
+
+.card-title-bar{position:relative;z-index:1;padding:18px 20px 14px;border-bottom:2px solid rgba(139,115,75,0.3);display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.card-title-bar.type-bakudo{background:linear-gradient(180deg,rgba(30,50,80,0.95),rgba(40,35,25,0.95))}
+.card-title-bar.type-hado{background:linear-gradient(180deg,rgba(70,25,20,0.95),rgba(40,35,25,0.95))}
+.card-title-bar.type-kaido{background:linear-gradient(180deg,rgba(20,60,35,0.95),rgba(40,35,25,0.95))}
+.card-title-text{flex:1}
+.card-spell-number{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px}
+.type-bakudo .card-spell-number{color:rgba(79,180,255,0.6)}.type-hado .card-spell-number{color:rgba(255,90,64,0.6)}.type-kaido .card-spell-number{color:rgba(80,220,120,0.6)}
+.card-spell-name{font-family:var(--font-kanji);font-size:1.7rem;font-weight:700;color:#f0d890;text-shadow:0 0 15px rgba(240,216,144,0.3);line-height:1.2}
+.card-spell-romaji{font-family:var(--font-body);font-size:0.9rem;font-style:italic;color:rgba(230,210,170,0.7);margin-top:2px}
+.card-close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(240,216,144,0.2);background:rgba(0,0,0,0.3);color:rgba(240,216,144,0.6);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;flex-shrink:0}
+.card-close:hover,.card-close:active{background:rgba(0,0,0,0.5);color:#f0d890;border-color:rgba(240,216,144,0.5)}
+
+.card-body{position:relative;z-index:1;padding:18px 22px 28px;color:var(--ink-dark)}
+.card-type-tag{display:inline-block;padding:4px 14px;border-radius:4px;font-family:var(--font-mono);font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.card-type-tag.tag-bakudo{background:rgba(40,100,180,0.12);color:#1a4a8a;border:1px solid rgba(40,100,180,0.25)}
+.card-type-tag.tag-hado{background:rgba(180,50,40,0.12);color:#8a1a1a;border:1px solid rgba(180,50,40,0.25)}
+.card-type-tag.tag-kaido{background:rgba(40,160,80,0.12);color:#1a6a2a;border:1px solid rgba(40,160,80,0.25)}
+
+.card-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:10px 14px;background:rgba(139,115,75,0.07);border-radius:4px;border-left:3px solid rgba(139,115,75,0.25);margin-bottom:16px}
+.card-meta span{font-size:0.8rem;color:var(--ink-mid)}.card-meta strong{color:var(--ink-dark)}
+
+.card-incantation{margin:16px 0;padding:16px 18px;background:linear-gradient(135deg,rgba(30,20,10,0.92),rgba(45,30,18,0.95));border:1px solid rgba(200,170,110,0.25);border-radius:6px;position:relative}
+.card-incantation::before{content:"詠 唱";position:absolute;top:-9px;left:14px;background:rgba(40,28,16,0.95);padding:0 10px;font-family:var(--font-kanji);font-size:0.6rem;color:rgba(200,170,110,0.5);letter-spacing:0.3em}
+.card-incantation p{color:#e8d8b0 !important;font-style:italic;font-size:0.9rem;line-height:1.75}
+
+.card-description{margin:14px 0;color:var(--ink-dark);line-height:1.75}
+.card-description p{margin-bottom:10px;color:var(--ink-dark)}
+.card-divider{border:none;border-top:1px solid rgba(139,115,75,0.25);margin:16px 0}
+.card-users-title{font-family:var(--font-mono);font-size:0.65rem;color:var(--ink-mid);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px}
+.card-users-list{display:flex;flex-wrap:wrap;gap:6px}
+.card-user-chip{font-family:var(--font-mono);font-size:0.7rem;padding:4px 10px;background:rgba(139,115,75,0.1);border:1px solid rgba(139,115,75,0.2);border-radius:4px;color:var(--ink-mid)}
+.card-classification{margin-top:20px;text-align:center;font-family:var(--font-mono);font-size:0.55rem;color:rgba(139,115,75,0.3);letter-spacing:0.25em;text-transform:uppercase}
+
+.no-results{text-align:center;padding:60px 20px;font-family:var(--font-mono);font-size:0.8rem;color:rgba(160,180,200,0.3);letter-spacing:0.1em;display:none;grid-column:1/-1}
+.no-results.visible{display:block}
+
+.grimoire-footer{position:relative;z-index:10;text-align:center;padding:35px 20px calc(var(--sai-bottom) + 40px);border-top:1px solid var(--border-dim)}
+.grimoire-footer::before{content:"";position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(79,180,255,0.15),transparent)}
+.footer-text{font-family:var(--font-mono);font-size:0.55rem;color:rgba(160,180,200,0.2);letter-spacing:0.25em;text-transform:uppercase}
+
+@media(max-width:480px){
+.header-kanji{font-size:3.2rem}.header-division{font-size:0.5rem;letter-spacing:0.15em}
+.seal-grid{grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:10px;padding:0 10px}
+.seal-kanji{font-size:2.2rem}.seal-ring{width:70px;height:70px}.seal-pulse{width:55px;height:55px}
+.card-overlay{padding:8px 8px calc(var(--sai-bottom) + 8px);align-items:flex-end}
+.spell-card{max-height:92vh;max-height:92dvh;border-radius:16px 16px 8px 8px}
+.card-body{padding:16px 18px 24px}.card-spell-name{font-size:1.4rem}
+.card-meta{grid-template-columns:1fr;gap:4px}
+}
+@media(min-width:481px) and (max-width:768px){
+.header-kanji{font-size:3.8rem}.seal-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:14px}.card-overlay{padding:16px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms !important;transition-duration:0.01ms !important}#particles{display:none}}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<header class="grimoire-header">
+<div class="header-kanji">鬼道書</div>
+<div class="header-subtitle">Kidō Grimoire</div>
+<div class="header-division">Shinigami Research &amp; Development Institute — Classified Archive</div>
+</header>
+<nav class="controls">
+<div class="controls-row">
+<div class="tab-group">
+<button class="tab-btn active" data-filter="all">All</button>
+<button class="tab-btn" data-filter="bakudo">縛道</button>
+<button class="tab-btn" data-filter="hado">破道</button>
+<button class="tab-btn" data-filter="kaido">回道</button>
+</div>
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search spells..." autocomplete="off" autocapitalize="off" spellcheck="false">
+<button class="search-clear" id="searchClear">✕</button>
+</div>
+<div class="spell-count" id="spellCount"></div>
+</div>
+</nav>
+<main class="seal-grid" id="sealGrid"></main>
+<div class="no-results" id="noResults">No matching records found in the archive.</div>
+<div class="card-overlay" id="cardOverlay">
+<div class="spell-card" id="spellCard"></div>
+</div>
+<footer class="grimoire-footer">
+<div class="footer-text">Seireitei Central Archive — Access Level: Captain</div>
+</footer>
+<script>
+const SPELLS=[
+{id:"bakudo-1",type:"bakudo",number:1,kanji:"塞",name:"塞 — Sai",romaji:"Sai",typeFull:"Bakudō — Way of Binding",tagClass:"tag-bakudo",classLevel:"Low",range:"Short–Mid",incantationType:"None required",incantation:null,description:["The most fundamental binding spell in the Kidō canon. Upon activation, the target's arms are locked behind their back by an invisible force of condensed reiatsu. Despite its low number, Sai remains a mainstay in Gotei 13 combat doctrine — its near-instant cast time and zero incantation requirement make it invaluable for restraining targets mid-engagement.","Sai's effectiveness scales directly with the caster's reiatsu. A seated officer's Sai might hold a low-level Hollow for minutes, while a Captain-class casting can immobilize lieutenant-tier opponents. However, any target with significantly superior spiritual pressure can shatter the binding through brute force."],users:["Rukia Kuchiki","Renji Abarai","Momo Hinamori"]},
+{id:"bakudo-4",type:"bakudo",number:4,kanji:"這縄",name:"這縄 — Hainawa",romaji:"Hainawa",typeFull:"Bakudō — Way of Binding",tagClass:"tag-bakudo",classLevel:"Low",range:"Mid",incantationType:"None required",incantation:null,description:["Generates a crackling rope of golden spiritual energy from the caster's palm that wraps around the target, binding their arms and torso. Hainawa is the standard follow-up to Sai in the Academy binding curriculum — while Sai locks the arms behind the back through invisible force, Hainawa provides a visible, tangible restraint that can be maintained at range.","The binding rope persists for as long as the caster maintains concentration, making it useful for prisoner transport. However, it can be snapped by mid-level opponents with sufficient reiatsu output."],users:["Rukia Kuchiki","Izuru Kira"]},
+{id:"hado-4",type:"hado",number:4,kanji:"白雷",name:"白雷 — Byakurai",romaji:"Byakurai",typeFull:"Hadō — Way of Destruction",tagClass:"tag-hado",classLevel:"Low",range:"Long",incantationType:"None required",incantation:null,description:["A concentrated bolt of pale lightning fired from the caster's fingertip. Byakurai trades raw destructive force for pinpoint accuracy and near-instant travel time — the bolt crosses short-to-mid distances almost instantaneously, making it one of the hardest Kidō to dodge at close range.","Gin Ichimaru demonstrated a Captain-class Byakurai that punched clean through reinforced barriers. At the Academy level, the spell is more commonly used for suppressive fire and precision targeting of weak points in an enemy's defenses."],users:["Byakuya Kuchiki","Gin Ichimaru"]},
+{id:"hado-31",type:"hado",number:31,kanji:"赤火砲",name:"赤火砲 — Shakkahō",romaji:"Shakkahō",typeFull:"Hadō — Way of Destruction",tagClass:"tag-hado",classLevel:"Mid",range:"Mid–Long",incantationType:"Full or abbreviated",incantation:"Ye lord! Mask of blood and flesh, all creation, flutter of wings, ye who bears the name of Man! Inferno and pandemonium, the sea barrier surges, march on to the south!",description:["The standard-issue mid-tier offensive Kidō taught to all Shinō Academy students. Shakkahō generates a concentrated orb of crimson spiritual energy in the caster's palm, which is then discharged as a destructive blast. The spell's power, accuracy, and stability are heavily dependent on proper incantation — skipping the chant produces a weaker, less controlled burst that may detonate prematurely.","In the field, Shakkahō is often the first Hadō a Shinigami reaches for in an ambush scenario. Its forgiving casting window and visible charge phase give allies time to clear the blast path. Rukia Kuchiki notably used an incantation-skipped Shakkahō during her time in the World of the Living, demonstrating that even a weakened cast retains meaningful destructive force."],users:["Rukia Kuchiki","Renji Abarai","Momo Hinamori","Izuru Kira"]},
+{id:"hado-33",type:"hado",number:33,kanji:"蒼火墜",name:"蒼火墜 — Sōkatsui",romaji:"Sōkatsui",typeFull:"Hadō — Way of Destruction",tagClass:"tag-hado",classLevel:"Mid",range:"Mid–Long",incantationType:"Full recommended",incantation:"Ye lord! Mask of flesh and bone, flutter of wings, ye who bears the name of Man! On the wall of blue flame, inscribe a twin lotus. In the abyss of conflagration, wait at the far heavens!",description:["Often called Shakkahō's blue counterpart, Sōkatsui trades the red fire's focused blast for a wider cone of azure flames. The area-of-effect discharge makes it ideal for crowd control against groups of weaker enemies or for suppressing a single target's movement options.","The blue flame burns at a lower intensity than Shakkahō's concentrated ball but covers far more ground, making evasion without Shunpo extremely difficult. Rukia Kuchiki favored this spell during engagements where precision was less important than area denial."],users:["Rukia Kuchiki","Byakuya Kuchiki"]},
+{id:"bakudo-61",type:"bakudo",number:61,kanji:"六杖\n光牢",name:"六杖光牢 — Rikujōkōrō",romaji:"Rikujōkōrō",typeFull:"Bakudō — Way of Binding",tagClass:"tag-bakudo",classLevel:"High",range:"Mid",incantationType:"Full recommended",incantation:"Carriage of thunder, bridge of a spinning wheel. With light, divide this into six!",description:["An advanced binding spell that summons six wide beams of golden light which slam into the target's midsection, completely immobilizing their body. Rikujōkōrō is the primary high-tier restraint used when full-body paralysis is required — it surpasses Sai in every measurable category but demands proportionally greater reiatsu and casting precision.","The six rods manifest as flat planes of condensed spiritual energy that phase through obstacles to reach the target, making evasion extremely difficult once the spell locks on. Byakuya Kuchiki employed Rikujōkōrō against Renji Abarai to devastating effect, demonstrating that even a battle-hardened lieutenant could not break free without external intervention."],users:["Byakuya Kuchiki","Rukia Kuchiki","Shunsui Kyōraku"]},
+{id:"hado-63",type:"hado",number:63,kanji:"雷吼炮",name:"雷吼炮 — Raikōhō",romaji:"Raikōhō",typeFull:"Hadō — Way of Destruction",tagClass:"tag-hado",classLevel:"High",range:"Mid–Long",incantationType:"Full recommended",incantation:"Sprinkled on the bones of the beast! Sharp tower, red crystal, steel ring. Move and become the wind, stop and become the calm. The sound of warring spears fills the empty castle!",description:["A high-tier lightning-based Hadō that concentrates enormous volumes of electrical reiatsu into a single devastating blast. Raikōhō represents the ceiling of what most lieutenant-class Shinigami can cast with full incantation — the reiatsu demand is immense, but the destructive output rivals some Zanpakutō releases.","The spell generates a massive yellow electrical discharge from the caster's palm, creating a concentrated beam capable of obliterating reinforced structures. Its casting time with full incantation limits combat utility, so it is often used as an opening strike or finishing blow rather than mid-fight."],users:["Byakuya Kuchiki","Suì-Fēng"]},
+{id:"bakudo-81",type:"bakudo",number:81,kanji:"断空",name:"断空 — Dankū",romaji:"Dankū",typeFull:"Bakudō — Way of Binding",tagClass:"tag-bakudo",classLevel:"Elite",range:"Self / Close",incantationType:"None required",incantation:null,description:["Creates a translucent rectangular barrier of immense defensive power in front of the caster. Dankū is widely regarded as the ultimate Kidō defense — it can completely block any Hadō numbered 89 and below, making it the hard counter to virtually every offensive spell in the standard Kidō library.","What makes Dankū exceptional among high-tier spells is its lack of incantation requirement. A sufficiently skilled caster can deploy the barrier near-instantaneously, making it viable as a reaction defense even against surprise attacks. Aizen Sōsuke demonstrated its use with casual ease during his betrayal, reinforcing its status as a Captain-class staple."],users:["Byakuya Kuchiki","Aizen Sōsuke","Genryūsai Yamamoto"]},
+{id:"hado-90",type:"hado",number:90,kanji:"黒棺",name:"黒棺 — Kurohitsugi",romaji:"Kurohitsugi",typeFull:"Hadō — Way of Destruction",tagClass:"tag-hado",classLevel:"Forbidden / Elite",range:"Mid",incantationType:"Full (rarely achieved)",incantation:"Seeping crest of turbidity. Arrogant vessel of lunacy! Boil forth and deny! Grow numb and flicker! Disrupt sleep! Crawling queen of iron! Eternally self-destructing doll of mud! Unite! Repulse! Fill with soil and know your own powerlessness!",description:["The most feared offensive Kidō in existence. Kurohitsugi encases the target in a towering black coffin of gravitational spiritual energy, then impales it from every direction with innumerable lances of condensed reiatsu. Even cast without incantation, the spell warps the fabric of space-time in the immediate vicinity.","Aizen Sōsuke cast Kurohitsugi without incantation against Sajin Komamura, achieving devastating results at what was estimated to be only one-third of the spell's full power. A full-incantation Kurohitsugi is said to distort space-time so severely that it creates a localized gravity well. No known defense can fully negate it at full power."],users:["Aizen Sōsuke"]},
+{id:"kaido-basic",type:"kaido",number:0,kanji:"回道",name:"回道 — Kaidō",romaji:"Kaidō",typeFull:"Kaidō — Way of Healing",tagClass:"tag-kaido",classLevel:"Varies",range:"Touch",incantationType:"Chantless focus",incantation:null,description:["The healing arts of the Kidō discipline. Kaidō encompasses all restorative techniques used by Shinigami, channeling the caster's reiatsu into a green healing aura that accelerates cellular regeneration and repairs spiritual damage. Unlike Bakudō and Hadō, Kaidō has no numbered spell system — it is practiced as a continuous discipline with varying levels of mastery.","Fourth Division members specialize in Kaidō and can treat injuries ranging from minor cuts to near-fatal wounds, though the technique cannot reverse death or regenerate lost organs. Retsu Unohana was the undisputed master of Kaidō, reportedly capable of healing damage that any other practitioner would consider irreversible."],users:["Retsu Unohana","Isane Kotetsu","Hanatarō Yamada","Orihime Inoue (analogous)"]}
+];
+
+const grid=document.getElementById('sealGrid'),overlay=document.getElementById('cardOverlay'),cardEl=document.getElementById('spellCard'),countEl=document.getElementById('spellCount'),noResults=document.getElementById('noResults'),searchInput=document.getElementById('searchInput'),searchClear=document.getElementById('searchClear');
+let activeFilter='all',touchStartY=0;
+
+function renderSeals(){
+grid.innerHTML='';const query=searchInput.value.toLowerCase().trim();let visible=0;
+SPELLS.forEach(spell=>{
+const mf=activeFilter==='all'||spell.type===activeFilter;
+const ms=!query||spell.name.toLowerCase().includes(query)||spell.romaji.toLowerCase().includes(query)||spell.kanji.replace('\n','').includes(query)||spell.typeFull.toLowerCase().includes(query)||String(spell.number).includes(query)||spell.description.some(p=>p.toLowerCase().includes(query))||spell.users.some(u=>u.toLowerCase().includes(query));
+if(mf&&ms){visible++;const s=document.createElement('div');s.className=`kido-seal type-${spell.type}`;s.style.animationDelay=`${visible*0.05}s`;s.setAttribute('role','button');s.setAttribute('tabindex','0');s.setAttribute('aria-label',`${spell.romaji} — ${spell.typeFull} number ${spell.number}`);
+s.innerHTML=`<div class="seal-pulse"></div><div class="seal-ring"></div><div class="seal-name">${spell.romaji}</div><div class="seal-kanji">${spell.kanji.replace('\n','<br>')}</div><div class="seal-number">#${spell.number===0?'—':spell.number}</div>`;
+s.addEventListener('click',()=>openCard(spell));s.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCard(spell)}});grid.appendChild(s)}
+});
+countEl.textContent=`${visible} / ${SPELLS.length} RECORDS`;noResults.classList.toggle('visible',visible===0);searchClear.classList.toggle('visible',query.length>0);
+}
+
+function openCard(spell){
+const inc=spell.incantation?`<div class="card-incantation"><p>${spell.incantation}</p></div>`:'';
+cardEl.innerHTML=`<div class="card-swipe-bar"><span></span></div><div class="card-title-bar type-${spell.type}"><div class="card-title-text"><div class="card-spell-number">${spell.typeFull} · #${spell.number===0?'—':spell.number}</div><div class="card-spell-name">${spell.name}</div><div class="card-spell-romaji">${spell.romaji}</div></div><button class="card-close" id="cardClose" aria-label="Close">✕</button></div><div class="card-body"><div class="card-type-tag ${spell.tagClass}">${spell.typeFull}</div><div class="card-meta"><span><strong>Number:</strong> ${spell.number===0?'N/A':spell.number}</span><span><strong>Class:</strong> ${spell.classLevel}</span><span><strong>Range:</strong> ${spell.range}</span><span><strong>Incantation:</strong> ${spell.incantationType}</span></div>${inc}<div class="card-description">${spell.description.map(p=>`<p>${p}</p>`).join('')}</div><hr class="card-divider"><div class="card-users-title">Known Practitioners</div><div class="card-users-list">${spell.users.map(u=>`<span class="card-user-chip">${u}</span>`).join('')}</div><div class="card-classification">Seireitei Central 46 — Clearance: Restricted</div></div>`;
+overlay.classList.add('active');document.body.style.overflow='hidden';document.getElementById('cardClose').addEventListener('click',closeCard);cardEl.scrollTop=0;
+}
+
+function closeCard(){overlay.classList.remove('active');document.body.style.overflow=''}
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeCard()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCard()});
+cardEl.addEventListener('touchstart',e=>{touchStartY=e.touches[0].clientY},{passive:true});
+cardEl.addEventListener('touchmove',e=>{if(cardEl.scrollTop<=0){const d=e.touches[0].clientY-touchStartY;if(d>80)closeCard()}},{passive:true});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeFilter=btn.dataset.filter;renderSeals()})});
+searchInput.addEventListener('input',renderSeals);
+searchClear.addEventListener('click',()=>{searchInput.value='';searchClear.classList.remove('visible');renderSeals();searchInput.focus()});
+
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');let particles=[];
+const isMobile=window.matchMedia('(max-width:768px)').matches,PC=isMobile?25:60;
+function rc(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}rc();window.addEventListener('resize',rc);
+function cp(){const r=Math.random();let c;if(r>0.8)c='rgba(80,220,120,';else if(r>0.5)c='rgba(255,90,64,';else c='rgba(79,180,255,';return{x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*0.15,vy:-Math.random()*0.25-0.08,size:Math.random()*2+0.5,opacity:Math.random()*0.35+0.1,color:c,life:0,maxLife:Math.random()*400+200}}
+for(let i=0;i<PC;i++){const p=cp();p.life=Math.random()*p.maxLife;particles.push(p)}
+function ap(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;p.life++;const lr=p.life/p.maxLife;let a=p.opacity;if(lr<0.1)a*=lr/0.1;if(lr>0.8)a*=(1-lr)/0.2;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=`${p.color}${a})`;ctx.fill();if(!isMobile){ctx.beginPath();ctx.arc(p.x,p.y,p.size*3,0,Math.PI*2);ctx.fillStyle=`${p.color}${a*0.12})`;ctx.fill()}if(p.life>=p.maxLife)particles[i]=cp()});requestAnimationFrame(ap)}
+if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches)ap();
+renderSeals();
+</script>
+</body>
+</html>
