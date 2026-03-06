@@ -8,6 +8,10 @@
 <meta name="apple-mobile-web-app-title" content="鬼道書">
 <meta name="theme-color" content="#06080e">
 <meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <title>鬼道書 — Kidō Grimoire</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -120,6 +124,55 @@ body::after{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:r
 .card-users-list{display:flex;flex-wrap:wrap;gap:6px}
 .card-user-chip{font-family:var(--font-mono);font-size:0.7rem;padding:4px 10px;background:rgba(139,115,75,0.1);border:1px solid rgba(139,115,75,0.2);border-radius:4px;color:var(--ink-mid)}
 .card-classification{margin-top:20px;text-align:center;font-family:var(--font-mono);font-size:0.55rem;color:rgba(139,115,75,0.3);letter-spacing:0.25em;text-transform:uppercase}
+/* ═══ SRDI RESEARCH TERMINAL — MEDIA FRAME ═══ */
+.card-media{margin:16px 0}
+.card-media-title{font-family:var(--font-mono);font-size:0.65rem;color:var(--ink-mid);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px}
+.card-media-grid{display:flex;flex-direction:column;gap:14px}
+/* Terminal frame */
+.srdi-terminal{position:relative;border-radius:4px;overflow:hidden;background:#080c14;border:1px solid rgba(100,160,220,0.2);box-shadow:0 0 15px rgba(80,140,200,0.08),inset 0 0 30px rgba(0,0,0,0.6)}
+/* Top bar — department label */
+.srdi-topbar{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:linear-gradient(180deg,rgba(20,35,55,0.95),rgba(12,20,35,0.98));border-bottom:1px solid rgba(100,160,220,0.15)}
+.srdi-dept{font-family:var(--font-mono);font-size:0.5rem;color:rgba(100,170,230,0.6);letter-spacing:0.2em;text-transform:uppercase}
+.srdi-status{font-family:var(--font-mono);font-size:0.45rem;letter-spacing:0.15em;text-transform:uppercase}
+.srdi-status.live{color:rgba(80,220,120,0.7)}
+.srdi-status.archived{color:rgba(100,170,230,0.5)}
+/* Viewport — holds the actual media */
+.srdi-viewport{position:relative;overflow:hidden;background:#000}
+.srdi-viewport img,.srdi-viewport video{width:100%;display:block}
+/* Scanline overlay */
+.srdi-viewport::after{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(100,170,230,0.03) 2px,rgba(100,170,230,0.03) 4px);pointer-events:none;z-index:2}
+/* Corner vignette */
+.srdi-viewport::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.4) 100%);pointer-events:none;z-index:3}
+/* Glitch animation on load */
+.srdi-viewport.glitch-in{animation:srdiGlitch 0.6s ease-out}
+@keyframes srdiGlitch{
+0%{opacity:0;filter:brightness(3) contrast(2) saturate(0)}
+10%{opacity:1;filter:brightness(2) contrast(1.5) saturate(0);transform:translateX(3px)}
+20%{filter:brightness(0.5) contrast(1.2) saturate(0.3);transform:translateX(-2px) skewX(1deg)}
+30%{filter:brightness(1.8) contrast(1.3) saturate(0.5);transform:translateX(1px)}
+40%{filter:brightness(0.8);transform:translateX(-1px) skewX(-0.5deg)}
+50%{filter:brightness(1.2) saturate(0.7);transform:translateX(0)}
+70%{filter:brightness(1) saturate(0.85);transform:none}
+100%{filter:brightness(1) saturate(1);transform:none;opacity:1}
+}
+/* Glitch slice — random horizontal tear */
+.srdi-viewport.glitch-in::after{animation:srdiScanFlicker 0.6s ease-out}
+@keyframes srdiScanFlicker{
+0%,100%{background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(100,170,230,0.03) 2px,rgba(100,170,230,0.03) 4px)}
+15%{background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(100,170,230,0.12) 1px,rgba(100,170,230,0.12) 3px)}
+30%{background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(100,170,230,0.06) 2px,rgba(100,170,230,0.06) 4px)}
+}
+/* Bottom info bar */
+.srdi-infobar{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:linear-gradient(180deg,rgba(12,20,35,0.98),rgba(15,25,40,0.95));border-top:1px solid rgba(100,160,220,0.1)}
+.srdi-caption{font-family:var(--font-mono);font-size:0.55rem;color:rgba(160,200,230,0.6);letter-spacing:0.05em;flex:1}
+.srdi-filestamp{font-family:var(--font-mono);font-size:0.45rem;color:rgba(100,160,220,0.35);letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;margin-left:10px}
+/* YouTube in terminal */
+.srdi-yt-wrap{position:relative;width:100%;padding-top:56.25%}
+.srdi-yt-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+/* The scanlines still overlay YouTube */
+.srdi-viewport:has(.srdi-yt-wrap)::after{z-index:0;pointer-events:none}
+.srdi-viewport:has(.srdi-yt-wrap)::before{z-index:0;pointer-events:none}
+@media(max-width:480px){.srdi-topbar{padding:4px 8px}.srdi-dept{font-size:0.42rem}.srdi-caption{font-size:0.48rem}}
 .no-results{text-align:center;padding:60px 20px;font-family:var(--font-mono);font-size:0.8rem;color:rgba(160,180,200,0.3);letter-spacing:0.1em;display:none;grid-column:1/-1}
 .no-results.visible{display:block}
 .grimoire-footer{position:relative;z-index:10;text-align:center;padding:35px 20px calc(var(--sai-bottom) + 40px);border-top:1px solid var(--border-dim)}
@@ -230,7 +283,7 @@ description:["The highest-numbered Hadō in the Kidō canon. Goryūtenmetsu summ
 // BAKUDŌ — WAY OF BINDING
 // ═══════════════════════════════════════════
 {id:"bakudo-1",type:"bakudo",number:1,kanji:"塞",name:"塞 — Sai",romaji:"Sai",typeFull:"Bakudō — Way of Binding",tagClass:"tag-bakudo",classLevel:"Low",range:"Short–Mid",incantationType:"None required",incantation:null,
-description:["The most fundamental binding spell in the Kidō canon. Upon activation, the target's arms are locked behind their back by an invisible force of condensed reiatsu. Despite its low number, Sai remains a mainstay in Gotei 13 combat doctrine — its near-instant cast time and zero incantation requirement make it invaluable for restraining targets mid-engagement.","Sai's effectiveness scales directly with the caster's reiatsu. A seated officer's Sai might hold a low-level Hollow for minutes, while a Captain-class casting can immobilize lieutenant-tier opponents. However, any target with significantly superior spiritual pressure can shatter the binding through brute force."],users:["Rukia Kuchiki","Renji Abarai","Momo Hinamori"]},
+description:["The most fundamental binding spell in the Kidō canon. Upon activation, the target's arms are locked behind their back by an invisible force of condensed reiatsu. Despite its low number, Sai remains a mainstay in Gotei 13 combat doctrine — its near-instant cast time and zero incantation requirement make it invaluable for restraining targets mid-engagement.","Sai's effectiveness scales directly with the caster's reiatsu. A seated officer's Sai might hold a low-level Hollow for minutes, while a Captain-class casting can immobilize lieutenant-tier opponents. However, any target with significantly superior spiritual pressure can shatter the binding through brute force."],media:[{type:"youtube",src:"https://www.youtube.com/watch?v=zEjzoe6R0IE",caption:"Sai deployment — field observation"}],users:["Rukia Kuchiki","Renji Abarai","Momo Hinamori"]},
 
 {id:"bakudo-4",type:"bakudo",number:4,kanji:"這縄",name:"這縄 — Hainawa",romaji:"Hainawa",typeFull:"Bakudō — Way of Binding",tagClass:"tag-bakudo",classLevel:"Low",range:"Mid",incantationType:"None required",incantation:null,
 description:["Generates a crackling rope of golden spiritual energy from the caster's palm that wraps around the target, binding their arms and torso. Hainawa is the standard follow-up to Sai in the Academy binding curriculum — while Sai locks the arms behind the back through invisible force, Hainawa provides a visible, tangible restraint that can be maintained at range.","The binding rope persists for as long as the caster maintains concentration, making it useful for prisoner transport. However, it can be snapped by mid-level opponents with sufficient reiatsu output."],users:["Rukia Kuchiki","Izuru Kira"]},
@@ -369,7 +422,25 @@ countEl.textContent=`${visible} / ${SPELLS.length} RECORDS`;noResults.classList.
 function openCard(spell){
 const inc=spell.incantation?`<div class="card-incantation"><p>${spell.incantation}</p></div>`:'';
 const numDisplay=spell.number===0?'Special':'#'+spell.number;
-cardEl.innerHTML=`<div class="card-swipe-bar"><span></span></div><div class="card-title-bar type-${spell.type}"><div class="card-title-text"><div class="card-spell-number">${spell.typeFull} · ${numDisplay}</div><div class="card-spell-name">${spell.name}</div><div class="card-spell-romaji">${spell.romaji}</div></div><button class="card-close" id="cardClose" aria-label="Close">✕</button></div><div class="card-body"><div class="card-type-tag ${spell.tagClass}">${spell.typeFull}</div><div class="card-meta"><span><strong>Number:</strong> ${spell.number===0?'Unnumbered':spell.number}</span><span><strong>Class:</strong> ${spell.classLevel}</span><span><strong>Range:</strong> ${spell.range}</span><span><strong>Incantation:</strong> ${spell.incantationType}</span></div>${inc}<div class="card-description">${spell.description.map(p=>`<p>${p}</p>`).join('')}</div><hr class="card-divider"><div class="card-users-title">Known Practitioners</div><div class="card-users-list">${spell.users.map(u=>`<span class="card-user-chip">${u}</span>`).join('')}</div><div class="card-classification">Seireitei Central 46 — Clearance: Restricted</div></div>`;
+let mediaBlock='';
+if(spell.media&&spell.media.length>0){
+const items=spell.media.map((m,idx)=>{
+const fileNum=`SRDI-${String(spell.number||0).padStart(3,'0')}-${String.fromCharCode(65+idx)}`;
+const status=m.type==='youtube'?'<span class="srdi-status live">▶ PLAYBACK</span>':'<span class="srdi-status archived">◆ ARCHIVED</span>';
+let viewport='';
+if(m.type==='youtube'){
+const vid=m.src.match(/(?:youtu\.be\/|v=|\/embed\/)([^&?\s]+)/);
+const yid=vid?vid[1]:m.src;
+viewport=`<div class="srdi-yt-wrap"><iframe src="https://www.youtube.com/embed/${yid}?rel=0" allowfullscreen loading="lazy"></iframe></div>`;
+} else {
+viewport=`<img src="${m.src}" alt="${m.caption||spell.romaji}" loading="lazy" onload="this.parentElement.classList.add('glitch-in')">`;
+}
+const caption=m.caption||'No additional data';
+return `<div class="srdi-terminal"><div class="srdi-topbar"><span class="srdi-dept">SRDI · 12th Division Research Bureau</span>${status}</div><div class="srdi-viewport">${viewport}</div><div class="srdi-infobar"><span class="srdi-caption">${caption}</span><span class="srdi-filestamp">${fileNum}</span></div></div>`;
+}).join('');
+mediaBlock=`<hr class="card-divider"><div class="card-media"><div class="card-media-title">SRDI Surveillance Archive</div><div class="card-media-grid">${items}</div></div>`;
+}
+cardEl.innerHTML=`<div class="card-swipe-bar"><span></span></div><div class="card-title-bar type-${spell.type}"><div class="card-title-text"><div class="card-spell-number">${spell.typeFull} · ${numDisplay}</div><div class="card-spell-name">${spell.name}</div><div class="card-spell-romaji">${spell.romaji}</div></div><button class="card-close" id="cardClose" aria-label="Close">✕</button></div><div class="card-body"><div class="card-type-tag ${spell.tagClass}">${spell.typeFull}</div><div class="card-meta"><span><strong>Number:</strong> ${spell.number===0?'Unnumbered':spell.number}</span><span><strong>Class:</strong> ${spell.classLevel}</span><span><strong>Range:</strong> ${spell.range}</span><span><strong>Incantation:</strong> ${spell.incantationType}</span></div>${inc}<div class="card-description">${spell.description.map(p=>`<p>${p}</p>`).join('')}</div>${mediaBlock}<hr class="card-divider"><div class="card-users-title">Known Practitioners</div><div class="card-users-list">${spell.users.map(u=>`<span class="card-user-chip">${u}</span>`).join('')}</div><div class="card-classification">Seireitei Central 46 — Clearance: Restricted</div></div>`;
 overlay.classList.add('active');document.body.style.overflow='hidden';document.getElementById('cardClose').addEventListener('click',closeCard);cardEl.scrollTop=0;
 }
 
